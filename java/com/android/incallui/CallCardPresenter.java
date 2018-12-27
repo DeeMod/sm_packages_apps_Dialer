@@ -32,6 +32,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.suda.utils.SudaUtils;
 import android.telecom.Call.Details;
 import android.telecom.StatusHints;
 import android.telecom.TelecomManager;
@@ -119,6 +120,7 @@ public class CallCardPresenter
   private InCallScreen mInCallScreen;
   private boolean isInCallScreenReady;
   private boolean shouldSendAccessibilityEvent;
+  private static boolean isSupportLanguage;
 
   @NonNull private final CallLocation callLocation;
   private final Runnable sendAccessibilityEventRunnable =
@@ -191,6 +193,8 @@ public class CallCardPresenter
     InCallPresenter.getInstance().addDetailsListener(this);
     InCallPresenter.getInstance().addInCallEventListener(this);
     isInCallScreenReady = true;
+
+    isSupportLanguage = SudaUtils.isSupportLanguage(true);
 
     // Log location impressions
     if (isOutgoingEmergencyCall(mPrimary)) {
@@ -735,7 +739,9 @@ public class CallCardPresenter
               shouldShowLocationAsLabel(nameIsNumber, mPrimaryContactInfo.shouldShowLocation)
                   ? mPrimaryContactInfo.location
                   : null,
-              isChildNumberShown || isCallSubjectShown ? null : mPrimaryContactInfo.label,
+                  isChildNumberShown || isCallSubjectShown ? null : isSupportLanguage ? TextUtils.isEmpty(mPrimaryContactInfo.label) ? mPrimaryContactInfo.location :
+                        TextUtils.isEmpty(mPrimaryContactInfo.location) ? mPrimaryContactInfo.label : mPrimaryContactInfo.label + " "
+                            + mPrimaryContactInfo.location : mPrimaryContactInfo.label),
               mPrimaryContactInfo.photo,
               mPrimaryContactInfo.photoType,
               mPrimaryContactInfo.isSipCall,
