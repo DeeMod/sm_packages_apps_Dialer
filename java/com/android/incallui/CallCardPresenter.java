@@ -741,7 +741,7 @@ public class CallCardPresenter
                   : null,
                   isChildNumberShown || isCallSubjectShown ? null : isSupportLanguage ? TextUtils.isEmpty(mPrimaryContactInfo.label) ? mPrimaryContactInfo.location :
                         TextUtils.isEmpty(mPrimaryContactInfo.location) ? mPrimaryContactInfo.label : mPrimaryContactInfo.label + " "
-                            + mPrimaryContactInfo.location : mPrimaryContactInfo.label),
+                            + mPrimaryContactInfo.location : mPrimaryContactInfo.label,
               mPrimaryContactInfo.photo,
               mPrimaryContactInfo.photoType,
               mPrimaryContactInfo.isSipCall,
